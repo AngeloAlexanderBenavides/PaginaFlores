@@ -139,7 +139,7 @@ export default function FunnelQuestionnaire({ onComplete }) {
             </div>
             <h2 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>¡Acceso Desbloqueado!</h2>
             <p className="subtitle" style={{ margin: '0 0 20px 0', fontSize: '0.9rem', lineHeight: '1.5' }}>
-              Para enviarte tu <strong>Video Taller de Regalo</strong> y activar tu <strong>50% de Descuento Especial</strong>, ingresa tus datos a continuación:
+              Para activar tu <strong>50% de Descuento Especial</strong> y asegurar tu cupo con todos los Bonos de Regalo, ingresa tus datos a continuación:
             </p>
           </div>
 
@@ -174,7 +174,7 @@ export default function FunnelQuestionnaire({ onComplete }) {
             </div>
 
             <button type="submit" className="btn btn-primary pulse-btn" style={{ marginTop: '10px' }}>
-              Obtener Video Taller + Descuento
+              Activar mi 50% de Descuento
               <ArrowRight size={18} />
             </button>
           </form>

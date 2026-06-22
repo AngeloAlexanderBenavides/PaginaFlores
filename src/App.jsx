@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Lock, Play, CheckCircle2, User, Award, 
   Sparkles, ShieldCheck, Heart, Clock, 
-  ChevronRight, ArrowRight, Instagram, Facebook, Phone, X, AlertCircle 
+  ChevronRight, ArrowRight, Instagram, Facebook, X, AlertCircle 
 } from 'lucide-react';
 import FunnelQuestionnaire from './components/FunnelQuestionnaire';
 import CourseCurriculum from './components/CourseCurriculum';
@@ -16,6 +16,13 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState(7200); // 2 hours in seconds
   const [memberId, setMemberId] = useState('');
   const [showExitPopup, setShowExitPopup] = useState(false);
+
+  // VSL (Video Sales Letter) funnel states
+  const [vslStarted, setVslStarted] = useState(false);
+  const [vslSecondsLeft, setVslSecondsLeft] = useState(20);
+  const [vslTimerActive, setVslTimerActive] = useState(false);
+  const [showQuizBtn, setShowQuizBtn] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
 
   // Check if already unlocked in this browser session
   useEffect(() => {
@@ -89,6 +96,30 @@ export default function App() {
     return () => clearInterval(timer);
   }, [unlocked]);
 
+  // VSL Timer logic for locked state
+  useEffect(() => {
+    if (!vslTimerActive) return;
+
+    const interval = setInterval(() => {
+      setVslSecondsLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          setVslTimerActive(false);
+          setShowQuizBtn(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [vslTimerActive]);
+
+  const handlePlayVideo = () => {
+    setVslStarted(true);
+    setVslTimerActive(true);
+  };
+
   const formatTime = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -111,11 +142,183 @@ export default function App() {
   };
 
   const checkoutUrl = 'https://go.hotmart.com/K106435878N?ap=a939';
-  // Montevideo, Uruguay prefix for Vanessa's support desk
-  const whatsappUrl = 'https://wa.me/59899342781?text=Hola%20Vanessa%2C%20estoy%20viendo%20la%20p%C3%A1gina%20de%20The%20Flower%20Studio%20PRO%20y%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20sobre%20facilidades%20de%20pago%20o%20cuotas.';
 
   if (!unlocked) {
-    return <FunnelQuestionnaire onComplete={handleUnlock} />;
+    return (
+      <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--soft-cream)', position: 'relative' }}>
+        {/* Main Header / Navbar */}
+        <header 
+          style={{ 
+            padding: '15px 20px', 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            borderBottom: '1px solid var(--primary-lavender)',
+            background: 'var(--white)'
+          }}
+        >
+          <div style={{ textAlign: 'center' }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: 'var(--primary-deep)', margin: 0, letterSpacing: '0.1em' }}>
+              THE FLOWER STUDIO
+            </h1>
+            <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--accent-rose)', fontWeight: '600' }}>
+              PRO ACADEMY
+            </span>
+          </div>
+        </header>
+
+        {/* Video Section (TU REGALO DE BIENVENIDA) */}
+        <section style={{ padding: '25px 20px 10px', background: '#f5ebf4', borderBottom: '1px solid var(--primary-lavender)' }}>
+          <div className="glass-card" style={{ padding: '24px 20px', border: '1px solid rgba(214, 90, 138, 0.2)', marginBottom: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-rose)', fontWeight: '700', fontSize: '0.85rem', marginBottom: '8px' }}>
+              <Heart size={16} fill="currentColor" />
+              <span>TU REGALO DE BIENVENIDA</span>
+            </div>
+            
+            <h3 style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', fontWeight: '700', color: 'var(--primary-deep)', marginBottom: '8px' }}>
+              Video Taller: Introducción al Diseño y Cuidado Floral
+            </h3>
+            
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-light)', lineHeight: '1.5', marginBottom: '16px' }}>
+              Disfruta de la clase gratuita dictada por Vanessa Salazar incrustada a continuación para dar tus primeros pasos:
+            </p>
+
+            {/* Premium Video Player Container */}
+            <div style={{ position: 'relative', margin: '15px 0' }}>
+              {!vslStarted ? (
+                <div 
+                  onClick={handlePlayVideo}
+                  style={{ 
+                    position: 'relative', 
+                    cursor: 'pointer',
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    boxShadow: 'var(--shadow-lg)',
+                    aspectRatio: '16/9'
+                  }}
+                >
+                  <img 
+                    src="https://img.youtube.com/vi/8GnGm6teFD8/maxresdefault.jpg" 
+                    alt="Video Taller Introducción" 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      top: 0, left: 0, right: 0, bottom: 0,
+                      background: 'rgba(107, 45, 92, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'background 0.3s'
+                    }}
+                    className="video-cover-overlay"
+                  >
+                    <div 
+                      style={{
+                        width: '72px',
+                        height: '72px',
+                        borderRadius: '50%',
+                        background: 'var(--accent-rose)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: 'var(--shadow-pink)',
+                        color: 'var(--white)',
+                        transition: 'transform 0.2s'
+                      }}
+                      className="play-badge"
+                    >
+                      <Play size={32} fill="currentColor" style={{ marginLeft: '4px' }} />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ position: 'relative' }}>
+                  <div className="video-wrapper" style={{ margin: 0 }}>
+                    <iframe
+                      src="https://www.youtube.com/embed/8GnGm6teFD8?autoplay=1&rel=0&modestbranding=1&fs=0&controls=1&iv_load_policy=3&disablekb=1"
+                      title="Video Taller Introducción al Diseño Floral"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    ></iframe>
+                  </div>
+                  {/* Top overlay block */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '60px', zIndex: 10, cursor: 'default' }} />
+                  {/* Bottom-right overlay block */}
+                  <div style={{ position: 'absolute', bottom: 0, right: 0, width: '120px', height: '50px', zIndex: 10, cursor: 'default' }} />
+                </div>
+              )}
+            </div>
+
+            {/* VSL Timer Status */}
+            {vslStarted && vslSecondsLeft > 0 && (
+              <div style={{ 
+                marginTop: '15px', 
+                padding: '12px', 
+                background: 'rgba(107, 45, 92, 0.05)', 
+                borderRadius: '12px', 
+                border: '1px dashed var(--primary-deep)',
+                fontSize: '0.8rem',
+                color: 'var(--primary-deep)',
+                fontWeight: '500',
+                textAlign: 'center'
+              }}>
+                ⏱️ El cuestionario de descuento se habilitará en {vslSecondsLeft} segundos...
+              </div>
+            )}
+
+            {/* Button to unlock Questionnaire */}
+            {showQuizBtn && !showQuiz && (
+              <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                <button 
+                  className="btn btn-primary pulse-btn" 
+                  onClick={() => {
+                    setShowQuiz(true);
+                    setTimeout(() => {
+                      document.getElementById('quiz-section')?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }}
+                  style={{ maxWidth: '380px', margin: '0 auto' }}
+                >
+                  Comenzar Cuestionario de Descuento
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+            )}
+
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-light)', lineHeight: '1.4', margin: '15px 0 20px', fontStyle: 'italic' }}>
+              🎁 Después de ver la clase de arriba, responde las 3 breves preguntas para activar tu 50% de descuento especial y ver los bonos.
+            </p>
+
+            {/* Derribando Falsas Creencias (Mitos del Arte Floral) */}
+            <div style={{ background: 'rgba(255, 255, 255, 0.8)', padding: '16px', borderRadius: '12px', borderLeft: '3px solid var(--accent-rose)', marginBottom: '0', textAlign: 'left' }}>
+              <h4 style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--primary-deep)', marginBottom: '8px', fontFamily: 'var(--font-body)' }}>
+                ¿Qué descubrirás en este Video Taller?
+              </h4>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.75rem', color: 'var(--text-dark)' }}>
+                <p>
+                  🌸 <strong>Mito del Vehículo:</strong> Por qué el arte floral es el modelo de negocio más rentable, rápido de implementar y con menor necesidad de stock inicial frente a otras opciones tradicionales de trabajo.
+                </p>
+                <p>
+                  🎨 <strong>Mito del Talento:</strong> ¿No te consideras creativa o manual? Vanessa te demostrará cómo un sistema mecánico de simetría y color te permite lograr resultados profesionales desde tu primer intento.
+                </p>
+                <p>
+                  🌍 <strong>Mito del Mercado:</strong> Cómo acceder a clientes de alto poder adquisitivo (bodas, hoteles y eventos corporativos) que pagan miles de dólares en cualquier ciudad, trabajando a tiempo parcial.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Funnel Questionnaire */}
+        {showQuiz && (
+          <div id="quiz-section" style={{ padding: '20px 0', animation: 'fadeIn 0.5s ease-out' }}>
+            <FunnelQuestionnaire onComplete={handleUnlock} />
+          </div>
+        )}
+      </div>
+    );
   }
 
   const time = formatTime(timeLeft);
@@ -188,57 +391,6 @@ export default function App() {
             className="img-responsive"
             style={{ borderRadius: '16px', boxShadow: 'var(--shadow-lg)' }}
           />
-        </div>
-      </section>
-
-      {/* Gift Section (Free Video Workshop) */}
-      <section style={{ padding: '25px 20px', background: '#f5ebf4', borderBottom: '1px solid var(--primary-lavender)' }}>
-        <div className="glass-card" style={{ padding: '24px 20px', border: '1px solid rgba(214, 90, 138, 0.2)', marginBottom: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-rose)', fontWeight: '700', fontSize: '0.85rem', marginBottom: '8px' }}>
-            <Heart size={16} fill="currentColor" />
-            <span>TU REGALO DE BIENVENIDA</span>
-          </div>
-          
-          <h3 style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', fontWeight: '700', color: 'var(--primary-deep)', marginBottom: '8px' }}>
-            Video Taller: Introducción al Diseño y Cuidado Floral
-          </h3>
-          
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-light)', lineHeight: '1.5', marginBottom: '16px' }}>
-            Disfruta de la clase gratuita dictada por Vanessa Salazar incrustada a continuación para dar tus primeros pasos:
-          </p>
-
-          {/* Embedded YouTube VSL Player */}
-          <div className="video-wrapper" style={{ margin: '15px 0' }}>
-            <iframe
-              src="https://www.youtube.com/embed/8GnGm6teFD8?rel=0&modestbranding=1"
-              title="Video Taller Introducción al Diseño Floral"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-light)', lineHeight: '1.4', margin: '10px 0 20px', fontStyle: 'italic' }}>
-            🎁 Al finalizar el video taller de arriba, desplázate hacia abajo para ver el plan de estudios completo y los bonos que Vanessa tiene para ti hoy.
-          </p>
-
-          {/* Derribando Falsas Creencias (Mitos del Arte Floral) */}
-          <div style={{ background: 'rgba(255, 255, 255, 0.8)', padding: '16px', borderRadius: '12px', borderLeft: '3px solid var(--accent-rose)', marginBottom: '10px', textAlign: 'left' }}>
-            <h4 style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--primary-deep)', marginBottom: '8px', fontFamily: 'var(--font-body)' }}>
-              ¿Qué descubrirás en este Video Taller?
-            </h4>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.75rem', color: 'var(--text-dark)' }}>
-              <p>
-                🌸 <strong>Mito del Vehículo:</strong> Por qué el arte floral es el modelo de negocio más rentable, rápido de implementar y con menor necesidad de stock inicial frente a otras opciones tradicionales de trabajo.
-              </p>
-              <p>
-                🎨 <strong>Mito del Talento:</strong> ¿No te consideras creativa o manual? Vanessa te demostrará cómo un sistema mecánico de simetría y color te permite lograr resultados profesionales desde tu primer intento.
-              </p>
-              <p>
-                🌍 <strong>Mito del Mercado:</strong> Cómo acceder a clientes de alto poder adquisitivo (bodas, hoteles y eventos corporativos) que pagan miles de dólares en cualquier ciudad, trabajando a tiempo parcial.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -559,35 +711,34 @@ export default function App() {
             </div>
 
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--primary-deep)', marginBottom: '12px' }}>
-              ¡Espera! No te vayas con las manos vacías
+              ¡Espera! No dejes pasar esta oportunidad
             </h3>
 
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-dark)', lineHeight: '1.5', marginBottom: '24px', textAlign: 'justify' }}>
-              ¿El costo único de <strong>$197 USD</strong> es un obstáculo en este momento? No dejes que la economía detenga tu sueño. Vanessa puede darte facilidades o resolver tus dudas de forma personalizada por WhatsApp.
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-dark)', lineHeight: '1.5', marginBottom: '24px', textAlign: 'justify' }}>
+              ¿Vas a dejar pasar tu <strong>50% de Descuento Especial</strong>? Esta oferta de afiliado es por tiempo limitado y no volverá a repetirse. Inscríbete hoy mismo de forma 100% segura en Hotmart y asegura tu acceso de por vida con todos los bonos.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <a 
-                href={whatsappUrl} 
+                href={checkoutUrl} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="btn btn-primary"
+                className="btn btn-primary pulse-btn"
                 style={{ fontSize: '0.85rem', padding: '14px 20px' }}
               >
-                <Phone size={16} fill="currentColor" />
-                Solicitar ayuda de pago por WhatsApp
+                Inscribirme con 50% de Descuento
               </a>
               <button 
                 onClick={() => setShowExitPopup(false)} 
                 className="btn btn-secondary"
                 style={{ fontSize: '0.85rem', padding: '12px 20px' }}
               >
-                Prefiero inscribirme al contado
+                Seguir navegando en la página
               </button>
             </div>
 
             <p style={{ fontSize: '0.65rem', color: 'var(--text-light)', marginTop: '15px' }}>
-              🔒 Tu conversación será 100% privada con Vanessa y su equipo.
+              🔒 Compra 100% segura y garantizada por Hotmart.
             </p>
           </div>
         </div>

@@ -460,8 +460,8 @@ h2::after {
 
 .badge-float {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 16px;
+  right: 24px; /* Shifted inward to clear the rounded corners */
   background: var(--accent-rose);
   color: var(--white);
   padding: 4px 10px;
@@ -630,3 +630,21 @@ h2::after {
   from { transform: scale(0.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* Custom Play Video Button Animations */
+.video-cover-overlay {
+  transition: background var(--transition-fast) !important;
+}
+
+.video-cover-overlay:hover {
+  background: rgba(107, 45, 92, 0.45) !important;
+}
+
+.play-badge {
+  transition: transform var(--transition-fast) !important;
+}
+
+.video-cover-overlay:hover .play-badge {
+  transform: scale(1.1);
+}
+
