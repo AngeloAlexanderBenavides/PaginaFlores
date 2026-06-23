@@ -22,7 +22,8 @@ export default function App() {
   const [vslSecondsLeft, setVslSecondsLeft] = useState(20);
   const [vslTimerActive, setVslTimerActive] = useState(false);
   const [showQuizBtn, setShowQuizBtn] = useState(false);
-  const [showQuiz, setShowQuiz] = useState(false);
+  // 'video' = video section view, 'quiz' = full questionnaire view
+  const [funnelView, setFunnelView] = useState('video');
 
   // Check if already unlocked in this browser session
   useEffect(() => {
@@ -144,6 +145,73 @@ export default function App() {
   const checkoutUrl = 'https://go.hotmart.com/K106435878N?ap=a939';
 
   if (!unlocked) {
+    // ── QUIZ VIEW ────────────────────────────────────────────────────────────
+    if (funnelView === 'quiz') {
+      return (
+        <div
+          className="container"
+          style={{
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            background: 'var(--soft-cream)',
+            position: 'relative',
+            animation: 'fadeIn 0.4s ease-out'
+          }}
+        >
+          {/* Quiz Header */}
+          <header
+            style={{
+              padding: '15px 20px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderBottom: '1px solid var(--primary-lavender)',
+              background: 'var(--white)'
+            }}
+          >
+            <button
+              onClick={() => setFunnelView('video')}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                color: 'var(--text-light)',
+                fontSize: '0.8rem',
+                fontWeight: '500',
+                padding: '6px 10px',
+                borderRadius: '8px',
+                transition: 'background 0.2s'
+              }}
+            >
+              <ChevronRight size={16} style={{ transform: 'rotate(180deg)' }} />
+              Volver al video
+            </button>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--primary-deep)', letterSpacing: '0.1em' }}>
+                THE FLOWER STUDIO
+              </span>
+              <br />
+              <span style={{ fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--accent-rose)', fontWeight: '600' }}>
+                PRO ACADEMY
+              </span>
+            </div>
+            {/* spacer to center title */}
+            <div style={{ width: '90px' }} />
+          </header>
+
+          {/* Quiz Content */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '20px 0' }}>
+            <FunnelQuestionnaire onComplete={handleUnlock} />
+          </div>
+        </div>
+      );
+    }
+
+    // ── VIDEO VIEW ───────────────────────────────────────────────────────────
     return (
       <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--soft-cream)', position: 'relative' }}>
         {/* Main Header / Navbar */}
@@ -281,16 +349,14 @@ export default function App() {
               </div>
             )}
 
-            {/* Button to unlock Questionnaire */}
-            {showQuizBtn && !showQuiz && (
+            {/* Button to navigate to Quiz View */}
+            {showQuizBtn && (
               <div style={{ textAlign: 'center', marginTop: '20px' }}>
                 <button 
                   className="btn btn-primary pulse-btn" 
                   onClick={() => {
-                    setShowQuiz(true);
-                    setTimeout(() => {
-                      document.getElementById('quiz-section')?.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
+                    setFunnelView('quiz');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   style={{ maxWidth: '380px', margin: '0 auto' }}
                 >
@@ -324,13 +390,6 @@ export default function App() {
             </div>
           </div>
         </section>
-
-        {/* Funnel Questionnaire */}
-        {showQuiz && (
-          <div id="quiz-section" style={{ padding: '20px 0', animation: 'fadeIn 0.5s ease-out' }}>
-            <FunnelQuestionnaire onComplete={handleUnlock} />
-          </div>
-        )}
       </div>
     );
   }
