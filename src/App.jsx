@@ -164,32 +164,12 @@ export default function App() {
             style={{
               padding: '15px 20px',
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               alignItems: 'center',
               borderBottom: '1px solid var(--primary-lavender)',
               background: 'var(--white)'
             }}
           >
-            <button
-              onClick={() => setFunnelView('video')}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                color: 'var(--text-light)',
-                fontSize: '0.8rem',
-                fontWeight: '500',
-                padding: '6px 10px',
-                borderRadius: '8px',
-                transition: 'background 0.2s'
-              }}
-            >
-              <ChevronRight size={16} style={{ transform: 'rotate(180deg)' }} />
-              Volver al video
-            </button>
             <div style={{ textAlign: 'center' }}>
               <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--primary-deep)', letterSpacing: '0.1em' }}>
                 THE FLOWER STUDIO
@@ -199,12 +179,10 @@ export default function App() {
                 PRO ACADEMY
               </span>
             </div>
-            {/* spacer to center title */}
-            <div style={{ width: '90px' }} />
           </header>
 
           {/* Quiz Content */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '20px 0' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <FunnelQuestionnaire onComplete={handleUnlock} />
           </div>
         </div>

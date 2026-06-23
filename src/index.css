@@ -148,8 +148,8 @@ h2::after {
   -webkit-backdrop-filter: blur(10px);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
-  padding: 36px 24px; /* Increased top/bottom padding for better structure */
-  margin-bottom: 24px;
+  padding: 24px 20px;
+  margin-bottom: 16px;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -161,9 +161,8 @@ h2::after {
 .funnel-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 40px 0;
+  justify-content: flex-start;
+  padding: 16px 0 24px;
   position: relative;
 }
 
