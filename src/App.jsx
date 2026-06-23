@@ -176,11 +176,11 @@ export default function App() {
             </div>
             
             <h3 style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', fontWeight: '700', color: 'var(--primary-deep)', marginBottom: '8px' }}>
-              Video Taller: Introducción al Diseño y Cuidado Floral
+              Descubre cómo crear arreglos profesionales y un negocio rentable desde casa (incluso si empiezas de cero).
             </h3>
             
             <p style={{ fontSize: '0.8rem', color: 'var(--text-light)', lineHeight: '1.5', marginBottom: '16px' }}>
-              Disfruta de la clase gratuita dictada por Vanessa Salazar incrustada a continuación para dar tus primeros pasos:
+              Vanessa Salazar comparte en esta clase gratuita el método exacto que usó para construir su negocio floral desde cero.
             </p>
 
             {/* Premium Video Player Container */}
@@ -252,18 +252,32 @@ export default function App() {
 
             {/* VSL Timer Status */}
             {vslStarted && vslSecondsLeft > 0 && (
-              <div style={{ 
-                marginTop: '15px', 
-                padding: '12px', 
-                background: 'rgba(107, 45, 92, 0.05)', 
-                borderRadius: '12px', 
-                border: '1px dashed var(--primary-deep)',
-                fontSize: '0.8rem',
-                color: 'var(--primary-deep)',
-                fontWeight: '500',
-                textAlign: 'center'
-              }}>
-                ⏱️ El cuestionario de descuento se habilitará en {vslSecondsLeft} segundos...
+              <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {/* Bucle abierto — retención */}
+                <div style={{
+                  padding: '12px 14px',
+                  background: 'linear-gradient(135deg, rgba(214, 90, 138, 0.08), rgba(107, 45, 92, 0.06))',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(214, 90, 138, 0.3)',
+                  fontSize: '0.82rem',
+                  color: 'var(--primary-deep)',
+                  lineHeight: '1.5'
+                }}>
+                  💡 <strong>Presta mucha atención a la clase:</strong> la respuesta clave para activar tu bono secreto se revela en los últimos minutos del video.
+                </div>
+                {/* Countdown */}
+                <div style={{
+                  padding: '10px 12px',
+                  background: 'rgba(107, 45, 92, 0.05)',
+                  borderRadius: '12px',
+                  border: '1px dashed var(--primary-deep)',
+                  fontSize: '0.8rem',
+                  color: 'var(--primary-deep)',
+                  fontWeight: '500',
+                  textAlign: 'center'
+                }}>
+                  ⏱️ El cuestionario de descuento se habilitará en {vslSecondsLeft} segundos...
+                </div>
               </div>
             )}
 
@@ -298,13 +312,13 @@ export default function App() {
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.75rem', color: 'var(--text-dark)' }}>
                 <p>
-                  🌸 <strong>Mito del Vehículo:</strong> Por qué el arte floral es el modelo de negocio más rentable, rápido de implementar y con menor necesidad de stock inicial frente a otras opciones tradicionales de trabajo.
+                  🌸 <strong>Mito del Vehículo:</strong> Por qué el arte floral es el <strong>modelo de negocio más rentable</strong> y <strong>rápido de implementar</strong>, con <strong>menor necesidad de stock inicial</strong> frente a otras opciones tradicionales de trabajo.
                 </p>
                 <p>
-                  🎨 <strong>Mito del Talento:</strong> ¿No te consideras creativa o manual? Vanessa te demostrará cómo un sistema mecánico de simetría y color te permite lograr resultados profesionales desde tu primer intento.
+                  🎨 <strong>Mito del Talento:</strong> ¿<strong>No te consideras creativa o manual</strong>? Vanessa te demostrará cómo un sistema mecánico de simetría y color te permite lograr <strong>resultados profesionales desde tu primer intento</strong>.
                 </p>
                 <p>
-                  🌍 <strong>Mito del Mercado:</strong> Cómo acceder a clientes de alto poder adquisitivo (bodas, hoteles y eventos corporativos) que pagan miles de dólares en cualquier ciudad, trabajando a tiempo parcial.
+                  🌍 <strong>Mito del Mercado:</strong> Cómo acceder a <strong>clientes de alto poder adquisitivo</strong> (<strong>bodas, hoteles y eventos corporativos</strong>) que pagan <strong>miles de dólares</strong> en cualquier ciudad, trabajando a tiempo parcial.
                 </p>
               </div>
             </div>

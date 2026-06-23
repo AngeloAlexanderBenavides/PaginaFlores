@@ -648,3 +648,9 @@ h2::after {
   transform: scale(1.1);
 }
 
+/* Spin animation for loading state */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
