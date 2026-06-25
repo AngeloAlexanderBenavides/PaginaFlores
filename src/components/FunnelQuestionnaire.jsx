@@ -106,6 +106,14 @@ export default function FunnelQuestionnaire({ onComplete }) {
       setSubmitting(false);
     }
 
+    // Trigger Facebook Pixel event
+    if (window.fbq) {
+      window.fbq('track', 'CompleteRegistration', {
+        content_name: 'Lead Descuento Flower Studio PRO',
+        status: 'success'
+      });
+    }
+
     // Trigger celebration
     confetti({
       particleCount: 100,

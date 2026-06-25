@@ -36,6 +36,20 @@ export default function App() {
     }
   }, []);
 
+  // Track ViewContent when the funnel is unlocked
+  useEffect(() => {
+    if (unlocked) {
+      if (window.fbq) {
+        window.fbq('track', 'ViewContent', {
+          content_name: 'The Flower Studio PRO',
+          content_category: 'Online Course',
+          value: 197.00,
+          currency: 'USD'
+        });
+      }
+    }
+  }, [unlocked]);
+
   // Exit Intent Event Listener
   useEffect(() => {
     if (!unlocked) return;
@@ -143,6 +157,17 @@ export default function App() {
   };
 
   const checkoutUrl = 'https://go.hotmart.com/K106435878N?ap=a939';
+
+  const handleInitiateCheckout = () => {
+    if (window.fbq) {
+      window.fbq('track', 'InitiateCheckout', {
+        content_name: 'The Flower Studio PRO',
+        content_category: 'Online Course',
+        value: 197.00,
+        currency: 'USD'
+      });
+    }
+  };
 
   if (!unlocked) {
     // ── QUIZ VIEW ────────────────────────────────────────────────────────────
@@ -634,6 +659,7 @@ export default function App() {
           href={checkoutUrl} 
           target="_blank" 
           rel="noopener noreferrer" 
+          onClick={handleInitiateCheckout}
           className="btn btn-primary pulse-btn"
           style={{ fontSize: '1rem', padding: '18px 24px', maxWidth: '380px', margin: '0 auto', letterSpacing: '0.02em' }}
         >
@@ -774,6 +800,7 @@ export default function App() {
                 href={checkoutUrl} 
                 target="_blank" 
                 rel="noopener noreferrer" 
+                onClick={handleInitiateCheckout}
                 className="btn btn-primary pulse-btn"
                 style={{ fontSize: '0.85rem', padding: '14px 20px' }}
               >
