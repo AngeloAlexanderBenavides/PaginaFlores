@@ -34,3 +34,10 @@ out/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Analytics / Data exports (Clarity, GA, etc.)
+Clarity_*.csv
+*.csv
+*.json
+!package.json
+!package-lock.json
