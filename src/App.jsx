@@ -19,7 +19,7 @@ export default function App() {
 
   // VSL (Video Sales Letter) funnel states
   const [vslStarted, setVslStarted] = useState(false);
-  const [vslSecondsLeft, setVslSecondsLeft] = useState(20);
+  const [vslSecondsLeft, setVslSecondsLeft] = useState(10);
   const [vslTimerActive, setVslTimerActive] = useState(false);
   const [showQuizBtn, setShowQuizBtn] = useState(false);
   // 'video' = video section view, 'quiz' = full questionnaire view
@@ -65,14 +65,14 @@ export default function App() {
       }
     };
 
-    // Mobile timeout exit intent (idle/timer for 45s)
+    // Mobile timeout exit intent (idle/timer for 20s — usuarios de redes sociales tienen atención corta)
     const mobileTimeout = setTimeout(() => {
       const shown = sessionStorage.getItem('fsp_exit_shown');
       if (!shown) {
         setShowExitPopup(true);
         sessionStorage.setItem('fsp_exit_shown', 'true');
       }
-    }, 45000);
+    }, 20000);
 
     document.addEventListener('mouseleave', handleMouseLeave);
     
@@ -254,6 +254,41 @@ export default function App() {
               Vanessa Salazar comparte en esta clase gratuita el método exacto que usó para construir su negocio floral desde cero.
             </p>
 
+            {/* ── BOTÓN SKIP INMEDIATO (siempre visible desde el segundo 0) ── */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(214, 90, 138, 0.1), rgba(107, 45, 92, 0.08))',
+              border: '1.5px solid rgba(214, 90, 138, 0.4)',
+              borderRadius: '14px',
+              padding: '14px 16px',
+              marginBottom: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px',
+              flexWrap: 'wrap'
+            }}>
+              <span style={{ fontSize: '0.78rem', color: 'var(--primary-deep)', fontWeight: '500', lineHeight: '1.4' }}>
+                ⚡ ¿No tienes tiempo? Accede al descuento directamente
+              </span>
+              <button
+                className="btn btn-primary pulse-btn"
+                onClick={() => {
+                  setFunnelView('quiz');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                style={{
+                  padding: '10px 18px',
+                  fontSize: '0.8rem',
+                  borderRadius: '9999px',
+                  width: 'auto',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0
+                }}
+              >
+                Saltar al descuento →
+              </button>
+            </div>
+
             {/* Premium Video Player Container */}
             <div style={{ position: 'relative', margin: '15px 0' }}>
               {!vslStarted ? (
@@ -270,7 +305,9 @@ export default function App() {
                 >
                   <img 
                     src="https://img.youtube.com/vi/8GnGm6teFD8/maxresdefault.jpg" 
-                    alt="Video Taller Introducción" 
+                    alt="Video Taller Introducción"
+                    loading="lazy"
+                    decoding="async"
                     style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                   />
                   <div 
@@ -321,10 +358,9 @@ export default function App() {
               )}
             </div>
 
-            {/* VSL Timer Status */}
+            {/* VSL Timer Status — solo visible mientras el timer corre */}
             {vslStarted && vslSecondsLeft > 0 && (
               <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {/* Bucle abierto — retención */}
                 <div style={{
                   padding: '12px 14px',
                   background: 'linear-gradient(135deg, rgba(214, 90, 138, 0.08), rgba(107, 45, 92, 0.06))',
@@ -334,9 +370,8 @@ export default function App() {
                   color: 'var(--primary-deep)',
                   lineHeight: '1.5'
                 }}>
-                  💡 <strong>Presta mucha atención a la clase:</strong> la respuesta clave para activar tu bono secreto se revela en los últimos minutos del video.
+                  💡 <strong>Presta mucha atención a la clase:</strong> la respuesta clave para activar tu bono secreto se revela al final del video.
                 </div>
-                {/* Countdown */}
                 <div style={{
                   padding: '10px 12px',
                   background: 'rgba(107, 45, 92, 0.05)',
@@ -347,12 +382,12 @@ export default function App() {
                   fontWeight: '500',
                   textAlign: 'center'
                 }}>
-                  ⏱️ El cuestionario de descuento se habilitará en {vslSecondsLeft} segundos...
+                  ⏱️ El cuestionario completo se habilitará en {vslSecondsLeft} segundos...
                 </div>
               </div>
             )}
 
-            {/* Button to navigate to Quiz View */}
+            {/* Botón principal post-video */}
             {showQuizBtn && (
               <div style={{ textAlign: 'center', marginTop: '20px' }}>
                 <button 
@@ -370,7 +405,7 @@ export default function App() {
             )}
 
             <p style={{ fontSize: '0.75rem', color: 'var(--text-light)', lineHeight: '1.4', margin: '15px 0 20px', fontStyle: 'italic' }}>
-              🎁 Después de ver la clase de arriba, responde las 3 breves preguntas para activar tu 50% de descuento especial y ver los bonos.
+              🎁 Responde 3 preguntas rápidas y activa tu 50% de descuento especial.
             </p>
 
             {/* Derribando Falsas Creencias (Mitos del Arte Floral) */}
@@ -393,6 +428,20 @@ export default function App() {
             </div>
           </div>
         </section>
+
+        {/* Sticky CTA Bar — siempre visible en mobile mientras hacen el 77% de scroll */}
+        <div className="sticky-skip-cta">
+          <span>⚡ ¿Listo para el descuento?</span>
+          <button
+            className="btn"
+            onClick={() => {
+              setFunnelView('quiz');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            Ver mi 50% dto. →
+          </button>
+        </div>
       </div>
     );
   }
@@ -459,12 +508,15 @@ export default function App() {
           El nuevo sistema para convertirte en un <strong>Experto Decorador Floral</strong> y crear un negocio rentable en la industria de eventos, sin necesidad de experiencia previa.
         </p>
 
-        {/* Main Cover Image */}
+        {/* Main Cover Image — LCP element: eager load + high fetch priority */}
         <div style={{ position: 'relative', margin: '20px auto', maxWidth: '340px' }}>
           <img 
             src="/images/THE-FLOWER-STUDIO-PRO.jpg" 
             alt="The Flower Studio Pro" 
             className="img-responsive"
+            loading="eager"
+            fetchpriority="high"
+            decoding="sync"
             style={{ borderRadius: '16px', boxShadow: 'var(--shadow-lg)' }}
           />
         </div>
@@ -526,6 +578,8 @@ export default function App() {
               src="/images/certificado-the-flower-studio-pro-2.jpg" 
               alt="Certificado Vanessa" 
               className="img-responsive"
+              loading="lazy"
+              decoding="async"
               style={{ borderRadius: '12px', boxShadow: 'var(--shadow-md)' }}
             />
           </div>
@@ -557,7 +611,7 @@ export default function App() {
       {/* Trust & Guarantee Area */}
       <section style={{ padding: '40px 20px', background: '#fdf9fa', borderTop: '1px solid var(--primary-lavender)', textAlign: 'center' }}>
         <div style={{ maxWidth: '100px', margin: '0 auto 15px' }}>
-          <img src="/images/sellogarantia.png" alt="Garantía 7 Días" className="img-responsive" />
+          <img src="/images/sellogarantia.png" alt="Garantía 7 Días" className="img-responsive" loading="lazy" decoding="async" />
         </div>
         <h3 style={{ fontSize: '1.2rem', color: 'var(--primary-deep)', marginBottom: '8px' }}>Satisfacción 100% Garantizada</h3>
         <p style={{ fontSize: '0.8rem', color: 'var(--text-dark)', lineHeight: '1.6', padding: '0 10px', textAlign: 'justify' }}>
@@ -565,7 +619,7 @@ export default function App() {
         </p>
         
         <div style={{ maxWidth: '120px', margin: '20px auto 0' }}>
-          <img src="/images/hotmart-uso-logo-azul.png" alt="Hotmart Pago Seguro" className="img-responsive" style={{ opacity: 0.8 }} />
+          <img src="/images/hotmart-uso-logo-azul.png" alt="Hotmart Pago Seguro" className="img-responsive" loading="lazy" decoding="async" style={{ opacity: 0.8 }} />
         </div>
       </section>
 

@@ -1,0 +1,83 @@
+﻿"Nombre del proyecto","Flores"
+"Intervalo de fechas","06/24/2026 00:00 - 06/26/2026 23:59"
+
+
+"Métricas","Sesiones"
+"","Total de sesiones","34"
+"","Sesiones de bot","17"
+
+"Métricas","Páginas por sesión"
+"","Promedio","1.2647058823529411"
+
+"Métricas","Profundidad de desplazamiento"
+"","Promedio","77.7"
+
+"Métricas","Tiempo activo empleado"
+"","Tiempo activo","30"
+"","Tiempo total","134"
+
+"Métricas","Información general de los usuarios"
+"","Usuarios únicos","27"
+"","Sesiones con nuevos usuarios","26"
+"","Sesiones con usuarios recurrentes","8"
+
+"Métricas","Ideas","Nro. de sesiones","% de sesiones"
+"","Clics continuos","0","0%"
+"","Clic inactivo","2","5,88%"
+"","Desplazamiento excesivo","0","0%"
+"","Clic atrás rápido","0","0%"
+
+"Métricas","Exploradores","Nro. de sesiones","% de sesiones"
+"","InstagramApp","9","26,47%"
+"","ChromeMobile","8","23,53%"
+"","FacebookApp","7","20,59%"
+"","Edge","6","17,65%"
+"","Chrome","2","5,88%"
+"","Unknown","1","2,94%"
+"","MobileSafari","1","2,94%"
+
+"Métricas","Dispositivos","Nro. de sesiones","% de sesiones"
+"","Mobile","21","72,41%"
+"","PC","7","24,14%"
+"","Tablet","1","3,45%"
+
+"Métricas","Páginas principales","Nro. de sesiones"
+"","https://pagina-flores.vercel.app/","34"
+
+"Métricas","Sistemas operativos","Nro. de sesiones","% de sesiones"
+"","Android","19","55,88%"
+"","Windows","8","23,53%"
+"","iOS","6","17,65%"
+"","MacOS","1","2,94%"
+
+"Métricas","Eventos inteligentes","Nro. de sesiones","% de sesiones"
+"","Enviar formulario","2","5,88%"
+"","Clic de salida","1","2,94%"
+
+"Métricas","Origen de referencia","Nro. de sesiones"
+"","instagram.com","9"
+"","l.facebook.com","8"
+"","m.facebook.com","7"
+"","vercel.com","5"
+"","adsmanager.facebook.com","1"
+"","www.facebook.com","1"
+
+"Métricas","Errores de JavaScript"
+"","Sesiones con errores de JavaScript"
+""," total de errores de JavaScript","0"
+"","","Nro. de sesiones","% de sesiones"
+
+"Métricas","Información general del rendimiento"
+"","Puntuación","71.5"
+"","LCP (Pintura con contenido más grande)","5.457s"
+"","INP (Interacción con Next Paint)","342ms"
+"","CLS (desplazamiento de diseño acumulativo)","0.0825s"
+
+"Métricas","Tráfico de bots"
+"webScraperBotSessions","7"
+"suspiciousDeviceBotSessions","8"
+"suspiciousNetworkBotSessions","17"
+"suspiciousInteractionBotSessions","13"
+"ppcAdFraudBotSessions","0"
+"otherBotsSessions","0"
+"__typename","BotTypes"
