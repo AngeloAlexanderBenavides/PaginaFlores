@@ -19,9 +19,6 @@ export default function App() {
 
   // VSL (Video Sales Letter) funnel states
   const [vslStarted, setVslStarted] = useState(false);
-  const [vslSecondsLeft, setVslSecondsLeft] = useState(10);
-  const [vslTimerActive, setVslTimerActive] = useState(false);
-  const [showQuizBtn, setShowQuizBtn] = useState(false);
   // 'video' = video section view, 'quiz' = full questionnaire view
   const [funnelView, setFunnelView] = useState('video');
 
@@ -111,28 +108,8 @@ export default function App() {
     return () => clearInterval(timer);
   }, [unlocked]);
 
-  // VSL Timer logic for locked state
-  useEffect(() => {
-    if (!vslTimerActive) return;
-
-    const interval = setInterval(() => {
-      setVslSecondsLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          setVslTimerActive(false);
-          setShowQuizBtn(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [vslTimerActive]);
-
   const handlePlayVideo = () => {
     setVslStarted(true);
-    setVslTimerActive(true);
   };
 
   const formatTime = (seconds) => {
@@ -214,224 +191,152 @@ export default function App() {
       );
     }
 
-    // ── VIDEO VIEW ───────────────────────────────────────────────────────────
+    // ── VIDEO VIEW ───────────────────────────────────────────────
     return (
-      <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--soft-cream)', position: 'relative' }}>
-        {/* Main Header / Navbar */}
-        <header 
-          style={{ 
-            padding: '15px 20px', 
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            borderBottom: '1px solid var(--primary-lavender)',
-            background: 'var(--white)'
-          }}
-        >
+      <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--soft-cream)', position: 'relative', paddingBottom: '70px' }}>
+
+        {/* Header minimal */}
+        <header style={{ padding: '12px 20px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid var(--primary-lavender)', background: 'var(--white)' }}>
           <div style={{ textAlign: 'center' }}>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: 'var(--primary-deep)', margin: 0, letterSpacing: '0.1em' }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--primary-deep)', margin: 0, letterSpacing: '0.1em' }}>
               THE FLOWER STUDIO
             </h1>
-            <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--accent-rose)', fontWeight: '600' }}>
+            <span style={{ fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--accent-rose)', fontWeight: '600' }}>
               PRO ACADEMY
             </span>
           </div>
         </header>
 
-        {/* Video Section (TU REGALO DE BIENVENIDA) */}
-        <section style={{ padding: '25px 20px 10px', background: '#f5ebf4', borderBottom: '1px solid var(--primary-lavender)' }}>
-          <div className="glass-card" style={{ padding: '24px 20px', border: '1px solid rgba(214, 90, 138, 0.2)', marginBottom: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-rose)', fontWeight: '700', fontSize: '0.85rem', marginBottom: '8px' }}>
-              <Heart size={16} fill="currentColor" />
-              <span>TU REGALO DE BIENVENIDA</span>
-            </div>
-            
-            <h3 style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', fontWeight: '700', color: 'var(--primary-deep)', marginBottom: '8px' }}>
-              Descubre cómo crear arreglos profesionales y un negocio rentable desde casa (incluso si empiezas de cero).
-            </h3>
-            
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-light)', lineHeight: '1.5', marginBottom: '16px' }}>
-              Vanessa Salazar comparte en esta clase gratuita el método exacto que usó para construir su negocio floral desde cero.
-            </p>
+        {/* ── ABOVE THE FOLD ── Titular + Video grande + CTA inmediato */}
+        <section style={{ padding: '20px 16px 0', background: 'var(--white)' }}>
 
-            {/* ── BOTÓN SKIP INMEDIATO (siempre visible desde el segundo 0) ── */}
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(214, 90, 138, 0.1), rgba(107, 45, 92, 0.08))',
-              border: '1.5px solid rgba(214, 90, 138, 0.4)',
-              borderRadius: '14px',
-              padding: '14px 16px',
-              marginBottom: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '12px',
-              flexWrap: 'wrap'
-            }}>
-              <span style={{ fontSize: '0.78rem', color: 'var(--primary-deep)', fontWeight: '500', lineHeight: '1.4' }}>
-                ⚡ ¿No tienes tiempo? Accede al descuento directamente
-              </span>
-              <button
-                className="btn btn-primary pulse-btn"
-                onClick={() => {
-                  setFunnelView('quiz');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
+          {/* Badge */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--accent-rose)', fontWeight: '700', fontSize: '0.78rem', marginBottom: '10px', justifyContent: 'center' }}>
+            <Heart size={14} fill="currentColor" />
+            <span>CLASE GRATUITA — REGALO DE BIENVENIDA</span>
+          </div>
+
+          {/* Titular orientado al beneficio */}
+          <h2 style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '1.2rem',
+            fontWeight: '800',
+            color: 'var(--primary-deep)',
+            lineHeight: '1.4',
+            marginBottom: '14px',
+            textAlign: 'center'
+          }}>
+            Aprende a crear arreglos florales profesionales y emprende un negocio rentable desde casa
+            <span style={{ color: 'var(--accent-rose)' }}> — incluso si empiezas de cero.</span>
+          </h2>
+
+          {/* Video GRANDE con botón Play gigante */}
+          <div style={{ position: 'relative', margin: '0 -4px 16px' }}>
+            {!vslStarted ? (
+              <div
+                onClick={handlePlayVideo}
                 style={{
-                  padding: '10px 18px',
-                  fontSize: '0.8rem',
-                  borderRadius: '9999px',
-                  width: 'auto',
-                  whiteSpace: 'nowrap',
-                  flexShrink: 0
+                  position: 'relative',
+                  cursor: 'pointer',
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  boxShadow: '0 8px 32px rgba(107,45,92,0.2)',
+                  aspectRatio: '16/9',
+                  background: '#1a0a14'
                 }}
               >
-                Saltar al descuento →
-              </button>
-            </div>
-
-            {/* Premium Video Player Container */}
-            <div style={{ position: 'relative', margin: '15px 0' }}>
-              {!vslStarted ? (
-                <div 
-                  onClick={handlePlayVideo}
-                  style={{ 
-                    position: 'relative', 
-                    cursor: 'pointer',
-                    borderRadius: '16px',
-                    overflow: 'hidden',
-                    boxShadow: 'var(--shadow-lg)',
-                    aspectRatio: '16/9'
-                  }}
+                <img
+                  src="https://img.youtube.com/vi/8GnGm6teFD8/maxresdefault.jpg"
+                  alt="Clase gratuita: Arreglos florales profesionales"
+                  loading="eager"
+                  fetchpriority="high"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.88 }}
+                />
+                {/* Gradiente sutil */}
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(107,45,92,0.15) 0%, rgba(107,45,92,0.5) 100%)' }} />
+                {/* Botón Play GIGANTE */}
+                <div
+                  className="video-cover-overlay"
+                  style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
                 >
-                  <img 
-                    src="https://img.youtube.com/vi/8GnGm6teFD8/maxresdefault.jpg" 
-                    alt="Video Taller Introducción"
-                    loading="lazy"
-                    decoding="async"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                  />
-                  <div 
+                  <div
+                    className="play-badge"
                     style={{
-                      position: 'absolute',
-                      top: 0, left: 0, right: 0, bottom: 0,
-                      background: 'rgba(107, 45, 92, 0.3)',
+                      width: '86px',
+                      height: '86px',
+                      borderRadius: '50%',
+                      background: 'var(--accent-rose)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      transition: 'background 0.3s'
+                      boxShadow: '0 0 0 8px rgba(214,90,138,0.25), 0 8px 32px rgba(214,90,138,0.5)',
+                      color: 'var(--white)'
                     }}
-                    className="video-cover-overlay"
                   >
-                    <div 
-                      style={{
-                        width: '72px',
-                        height: '72px',
-                        borderRadius: '50%',
-                        background: 'var(--accent-rose)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: 'var(--shadow-pink)',
-                        color: 'var(--white)',
-                        transition: 'transform 0.2s'
-                      }}
-                      className="play-badge"
-                    >
-                      <Play size={32} fill="currentColor" style={{ marginLeft: '4px' }} />
-                    </div>
+                    <Play size={38} fill="currentColor" style={{ marginLeft: '5px' }} />
                   </div>
+                  <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '0.78rem', fontWeight: '600', letterSpacing: '0.06em', textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>
+                    TOCA PARA VER LA CLASE
+                  </span>
                 </div>
-              ) : (
-                <div style={{ position: 'relative' }}>
-                  <div className="video-wrapper" style={{ margin: 0 }}>
-                    <iframe
-                      src="https://www.youtube.com/embed/8GnGm6teFD8?autoplay=1&rel=0&modestbranding=1&fs=0&controls=1&iv_load_policy=3&disablekb=1"
-                      title="Video Taller Introducción al Diseño Floral"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    ></iframe>
-                  </div>
-                  {/* Top overlay block */}
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '60px', zIndex: 10, cursor: 'default' }} />
-                  {/* Bottom-right overlay block */}
-                  <div style={{ position: 'absolute', bottom: 0, right: 0, width: '120px', height: '50px', zIndex: 10, cursor: 'default' }} />
+              </div>
+            ) : (
+              <div style={{ position: 'relative' }}>
+                <div className="video-wrapper" style={{ margin: 0, borderRadius: '14px', overflow: 'hidden' }}>
+                  <iframe
+                    src="https://www.youtube.com/embed/8GnGm6teFD8?autoplay=1&rel=0&modestbranding=1&fs=0&controls=1&iv_load_policy=3&disablekb=1"
+                    title="Clase gratuita: Arreglos florales profesionales"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  ></iframe>
                 </div>
-              )}
-            </div>
-
-            {/* VSL Timer Status — solo visible mientras el timer corre */}
-            {vslStarted && vslSecondsLeft > 0 && (
-              <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{
-                  padding: '12px 14px',
-                  background: 'linear-gradient(135deg, rgba(214, 90, 138, 0.08), rgba(107, 45, 92, 0.06))',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(214, 90, 138, 0.3)',
-                  fontSize: '0.82rem',
-                  color: 'var(--primary-deep)',
-                  lineHeight: '1.5'
-                }}>
-                  💡 <strong>Presta mucha atención a la clase:</strong> la respuesta clave para activar tu bono secreto se revela al final del video.
-                </div>
-                <div style={{
-                  padding: '10px 12px',
-                  background: 'rgba(107, 45, 92, 0.05)',
-                  borderRadius: '12px',
-                  border: '1px dashed var(--primary-deep)',
-                  fontSize: '0.8rem',
-                  color: 'var(--primary-deep)',
-                  fontWeight: '500',
-                  textAlign: 'center'
-                }}>
-                  ⏱️ El cuestionario completo se habilitará en {vslSecondsLeft} segundos...
-                </div>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '55px', zIndex: 10, cursor: 'default' }} />
+                <div style={{ position: 'absolute', bottom: 0, right: 0, width: '110px', height: '48px', zIndex: 10, cursor: 'default' }} />
               </div>
             )}
+          </div>
 
-            {/* Botón principal post-video */}
-            {showQuizBtn && (
-              <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                <button 
-                  className="btn btn-primary pulse-btn" 
-                  onClick={() => {
-                    setFunnelView('quiz');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  style={{ maxWidth: '380px', margin: '0 auto' }}
-                >
-                  Comenzar Cuestionario de Descuento
-                  <ArrowRight size={18} />
-                </button>
+          {/* CTA Principal — SIEMPRE visible, segundo cero, orientado al regalo */}
+          <button
+            className="btn btn-primary pulse-btn"
+            onClick={() => {
+              setFunnelView('quiz');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            style={{ fontSize: '1rem', padding: '17px 24px', letterSpacing: '0.01em', marginBottom: '10px' }}
+          >
+            🎁 Desbloquear mi Regalo Ahora
+          </button>
+          <p style={{ textAlign: 'center', fontSize: '0.7rem', color: 'var(--text-light)', marginBottom: '18px' }}>
+            Gratis · Solo 3 preguntas · Sin tarjeta de crédito
+          </p>
+
+          {/* 3 bullets cortos — reemplazan los párrafos largos de los Mitos */}
+          <div style={{
+            background: '#fdf8ff',
+            border: '1px solid var(--primary-lavender)',
+            borderRadius: '12px',
+            padding: '14px 16px',
+            marginBottom: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '9px'
+          }}>
+            {[
+              { emoji: '🌸', text: 'Sin experiencia previa — el sistema funciona desde el primer intento' },
+              { emoji: '💰', text: 'Clientes en bodas, hoteles y eventos que pagan miles de dólares' },
+              { emoji: '🏠', text: 'Negocio rentable desde casa, a tiempo parcial' },
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '0.82rem', color: 'var(--text-dark)', lineHeight: '1.45' }}>
+                <span style={{ fontSize: '1rem', flexShrink: 0 }}>{item.emoji}</span>
+                <span>{item.text}</span>
               </div>
-            )}
-
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-light)', lineHeight: '1.4', margin: '15px 0 20px', fontStyle: 'italic' }}>
-              🎁 Responde 3 preguntas rápidas y activa tu 50% de descuento especial.
-            </p>
-
-            {/* Derribando Falsas Creencias (Mitos del Arte Floral) */}
-            <div style={{ background: 'rgba(255, 255, 255, 0.8)', padding: '16px', borderRadius: '12px', borderLeft: '3px solid var(--accent-rose)', marginBottom: '0', textAlign: 'left' }}>
-              <h4 style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--primary-deep)', marginBottom: '8px', fontFamily: 'var(--font-body)' }}>
-                ¿Qué descubrirás en este Video Taller?
-              </h4>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.75rem', color: 'var(--text-dark)' }}>
-                <p>
-                  🌸 <strong>Mito del Vehículo:</strong> Por qué el arte floral es el <strong>modelo de negocio más rentable</strong> y <strong>rápido de implementar</strong>, con <strong>menor necesidad de stock inicial</strong> frente a otras opciones tradicionales de trabajo.
-                </p>
-                <p>
-                  🎨 <strong>Mito del Talento:</strong> ¿<strong>No te consideras creativa o manual</strong>? Vanessa te demostrará cómo un sistema mecánico de simetría y color te permite lograr <strong>resultados profesionales desde tu primer intento</strong>.
-                </p>
-                <p>
-                  🌍 <strong>Mito del Mercado:</strong> Cómo acceder a <strong>clientes de alto poder adquisitivo</strong> (<strong>bodas, hoteles y eventos corporativos</strong>) que pagan <strong>miles de dólares</strong> en cualquier ciudad, trabajando a tiempo parcial.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* Sticky CTA Bar — siempre visible en mobile mientras hacen el 77% de scroll */}
+        {/* Sticky CTA bar — visible mientras hacen scroll (77% de profundidad) */}
         <div className="sticky-skip-cta">
-          <span>⚡ ¿Listo para el descuento?</span>
+          <span>🎁 ¿Listo para tu regalo?</span>
           <button
             className="btn"
             onClick={() => {
