@@ -53,6 +53,10 @@ export default function Testimonials() {
                 src={rev.avatar}
                 alt={rev.author}
                 className="testimonial-avatar"
+                loading="lazy"
+                decoding="async"
+                width="50"
+                height="50"
                 onError={(e) => {
                   e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop';
                 }}
@@ -80,12 +84,17 @@ export default function Testimonials() {
                 <img
                   src={rev.creationImage}
                   alt={`Diseño de ${rev.author}`}
+                  loading="lazy"
+                  decoding="async"
+                  width="600"
+                  height="260"
                   style={{
                     width: '100%',
-                    maxHeight: '260px',
+                    height: '260px',
                     objectFit: 'cover',
                     borderRadius: '8px',
-                    boxShadow: 'var(--shadow-sm)'
+                    boxShadow: 'var(--shadow-sm)',
+                    display: 'block'
                   }}
                 />
               </div>

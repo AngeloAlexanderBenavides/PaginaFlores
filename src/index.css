@@ -373,12 +373,14 @@ h2::after {
 /* Video Player Wrapper */
 .video-wrapper {
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 ratio */
+  padding-bottom: 56.25%; /* 16:9 ratio — reserva el espacio antes de cargar */
   height: 0;
   overflow: hidden;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   margin: 20px 0;
+  /* CLS fix: evita que el iframe reposicione el layout */
+  contain: layout;
 }
 
 .video-wrapper iframe,
@@ -494,6 +496,9 @@ h2::after {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--primary-lavender);
+  /* CLS fix: dimensiones fijas para que nunca cause layout shift */
+  flex-shrink: 0;
+  display: block;
 }
 
 .testimonial-info h4 {

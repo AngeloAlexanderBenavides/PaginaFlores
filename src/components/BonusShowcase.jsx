@@ -65,17 +65,19 @@ export default function BonusShowcase() {
               GRATIS
             </div>
 
-            {/* Bonus cover image */}
-            <div style={{ maxWidth: '150px', marginBottom: '15px' }}>
+            {/* Bonus cover image — dimensiones explícitas para evitar CLS */}
+            <div style={{ width: '150px', height: '150px', marginBottom: '15px', flexShrink: 0 }}>
               <img
                 src={bonus.image}
                 alt={bonus.title}
-                className="img-responsive"
+                loading="lazy"
+                decoding="async"
+                width="150"
+                height="150"
                 onError={(e) => {
-                  // Fallback if image doesn't load
                   e.target.style.display = 'none';
                 }}
-                style={{ borderRadius: '8px', boxShadow: 'var(--shadow-md)' }}
+                style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '8px', boxShadow: 'var(--shadow-md)', display: 'block' }}
               />
             </div>
 
